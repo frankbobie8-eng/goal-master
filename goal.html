@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Goals | GoalMaster</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <nav>
+            <a href="index.html">Dashboard</a> | 
+            <a href="goals.html">Manage Goals</a>
+        </nav>
+        <h1>Manage Goals</h1>
+        <section id="input-section">
+            <input type="text" id="goal-input" placeholder="Enter objective...">
+            <select id="category-input">
+                <option value="General">General</option>
+                <option value="Work">Work</option>
+                <option value="Personal">Personal</option>
+            </select>
+            <button id="add-btn">Add</button>
+        </section>
+        <ul id="goal-list"></ul>
+        <button id="clear-btn">Clear All Goals</button>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

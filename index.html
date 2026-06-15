@@ -2,30 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoalMaster | Enhanced</title>
+    <title>Dashboard | GoalMaster</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main>
-        <h1>GoalMaster 🎯</h1>
+        <nav>
+            <a href="index.html">Dashboard</a> | 
+            <a href="goals.html">Manage Goals</a>
+        </nav>
+        <h1>Dashboard 🎯</h1>
         <div id="stats-section">
             <p>Total Completed: <span id="completed-count">0</span></p>
         </div>
         <div id="progress-container">
             <div id="progress-bar-bg"><div id="progress-bar-fill"></div></div>
         </div>
-        <section id="input-section">
-            <input type="text" id="goal-input" placeholder="Enter objective...">
-            <select id="category-input">
-                <option value="General">General</option>
-                <option value="Work">Work</option>
-                <option value="Personal">Personal</option>
-            </select>
-            <button id="add-btn">Add</button>
-        </section>
-        <ul id="goal-list"></ul>
-        <button id="clear-btn">Clear All Goals</button>
     </main>
     <script src="app.js"></script>
 </body>
