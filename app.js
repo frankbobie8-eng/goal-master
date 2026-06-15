@@ -1,64 +1,57 @@
 const addBtn = document.getElementById('add-btn');
 const goalInput = document.getElementById('goal-input');
+const categoryInput = document.getElementById('category-input');
 const goalList = document.getElementById('goal-list');
 const fill = document.getElementById('progress-bar-fill');
-const clearBtn = document.getElementById('clear-btn');
+const completedCountEl = document.getElementById('completed-count');
 
-// 1. Initial State: Load from LocalStorage
 let goals = JSON.parse(localStorage.getItem('goalsData')) || [];
 let totalGoalsCount = parseInt(localStorage.getItem('totalCount')) || 0;
 let completedGoalsCount = parseInt(localStorage.getItem('completedCount')) || 0;
 
-// Render existing goals on page load
-goals.forEach(goalText => renderGoal(goalText));
-updateProgress();
-
-function updateProgress() {
+function updateStats() {
     const percent = totalGoalsCount === 0 ? 0 : (completedGoalsCount / totalGoalsCount) * 100;
     fill.style.width = percent + '%';
+    completedCountEl.textContent = completedGoalsCount;
     
-    // Save state to LocalStorage
     localStorage.setItem('goalsData', JSON.stringify(goals));
     localStorage.setItem('totalCount', totalGoalsCount);
     localStorage.setItem('completedCount', completedGoalsCount);
 }
 
-function renderGoal(text) {
+function renderGoal(goal) {
     const li = document.createElement('li');
-    li.innerHTML = `<span>${text}</span> <button class="done-btn">Done</button>`;
+    li.innerHTML = `<div><strong>[${goal.category}]</strong> ${goal.text}</div> 
+                    <button class="done-btn">Done</button>`;
     
-    li.querySelector('.done-btn').addEventListener('click', (e) => {
+    li.querySelector('.done-btn').addEventListener('click', () => {
         completedGoalsCount++;
-        // Remove from UI and array
-        e.target.parentElement.remove();
-        goals = goals.filter(g => g !== text);
-        updateProgress();
+        goals = goals.filter(g => g.id !== goal.id);
+        li.remove();
+        updateStats();
     });
-
     goalList.appendChild(li);
 }
 
-// Add Goal Event
+goals.forEach(renderGoal);
+updateStats();
+
 addBtn.addEventListener('click', () => {
-    const text = goalInput.value.trim();
-    if (text !== "") {
-        goals.push(text);
+    if (goalInput.value.trim() !== "") {
+        const newGoal = { id: Date.now(), text: goalInput.value.trim(), category: categoryInput.value };
+        goals.push(newGoal);
         totalGoalsCount++;
-        renderGoal(text);
-        updateProgress();
+        renderGoal(newGoal);
+        updateStats();
         goalInput.value = "";
     }
 });
 
-// Clear All Event
-clearBtn.addEventListener('click', () => {
-    if (confirm("Are you sure you want to clear all goals?")) {
-        goals = [];
-        totalGoalsCount = 0;
-        completedGoalsCount = 0;
-        
+document.getElementById('clear-btn').addEventListener('click', () => {
+    if (confirm("Reset all data?")) {
+        goals = []; totalGoalsCount = 0; completedGoalsCount = 0;
         goalList.innerHTML = '';
         localStorage.clear();
-        updateProgress();
+        updateStats();
     }
 });
